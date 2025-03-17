@@ -1,7 +1,8 @@
 name: Percy Visual Test
 
 on:
-  repository_dispatch:  # Allows external triggers (like ManageWP)
+  workflow_dispatch:  # Enables the "Run Workflow" button in GitHub Actions
+  repository_dispatch:  # Keeps external triggers (like ManageWP)
     types: [managewp-updates-complete]
 
 jobs:
