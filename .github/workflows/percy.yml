@@ -1,7 +1,7 @@
 name: Percy Visual Test
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Enables manual run via "Run Workflow" button
 
 jobs:
   visual-regression:
@@ -22,7 +22,10 @@ jobs:
       - name: Debug Percy Installation
         run: npx percy --version
 
-      - name: Run Percy with Puppeteer
+      - name: Fix Percy Permissions
+        run: chmod +x ./node_modules/.bin/percy
+
+      - name: Create Puppeteer Test Script
         run: |
           echo "const puppeteer = require('puppeteer');
           const percySnapshot = require('@percy/puppeteer');
@@ -35,6 +38,7 @@ jobs:
             await browser.close();
           })();" > test.js
 
-          npx percy exec -- node test.js
+      - name: Run Percy with Puppeteer
+        run: npx percy exec -- node test.js
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
