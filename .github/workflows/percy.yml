@@ -22,12 +22,13 @@ jobs:
       - name: Debug Percy Installation
         run: npx percy --version
 
-      - name: Fix Percy Permissions
-        run: chmod +x ./node_modules/.bin/percy
+      - name: Fix Execution Permissions
+        run: chmod -R 777 node_modules/.bin/
 
       - name: Create Puppeteer Test Script
         run: |
-          echo "const puppeteer = require('puppeteer');
+          cat <<EOF > test.js
+          const puppeteer = require('puppeteer');
           const percySnapshot = require('@percy/puppeteer');
 
           (async () => {
@@ -36,7 +37,8 @@ jobs:
             await page.goto('https://rencee.com');
             await percySnapshot(page, 'Homepage');
             await browser.close();
-          })();" > test.js
+          })();
+          EOF
 
       - name: Run Percy with Puppeteer
         run: npx percy exec -- node test.js
