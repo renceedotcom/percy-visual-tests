@@ -1,7 +1,7 @@
 name: Percy Visual Test
 
 on:
-  workflow_dispatch:  # Enables the "Run Workflow" button in GitHub Actions
+  workflow_dispatch:
 
 jobs:
   visual-regression:
@@ -19,11 +19,14 @@ jobs:
       - name: Install Dependencies
         run: npm install --save-dev @percy/cli puppeteer
 
+      - name: Debug Percy Installation
+        run: npx percy --version
+
       - name: Run Percy with Puppeteer
         run: |
           echo "const puppeteer = require('puppeteer');
           const percySnapshot = require('@percy/puppeteer');
-          
+
           (async () => {
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
