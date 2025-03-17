@@ -1,0 +1,26 @@
+name: Percy Visual Test
+
+on:
+  repository_dispatch:  # Allows external triggers (like ManageWP)
+    types: [managewp-updates-complete]
+
+jobs:
+  visual-regression:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Percy CLI
+        run: npm install -g @percy/cli
+
+      - name: Run Percy Test
+        run: percy snapshot https://yourwebsite.com
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
