@@ -1,4 +1,4 @@
 name: Run Percy Test
-run: percy snapshot https://yourwebsite.com
+run: percy snapshot https://rencee.com
 env:
 PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
